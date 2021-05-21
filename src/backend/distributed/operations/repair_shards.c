@@ -732,7 +732,7 @@ RepairShardPlacement(int64 shardId, const char *sourceNodeName, int32 sourceNode
 											   ddlCommandList);
 
 	/* after successful repair, we update shard state as healthy*/
-	List *placementList = ShardPlacementList(shardId);
+	List *placementList = ShardPlacementListWithoutOldPlacements(shardId);
 	ShardPlacement *placement = SearchShardPlacementInListOrError(placementList,
 																  targetNodeName,
 																  targetNodePort);
@@ -1013,7 +1013,7 @@ static void
 EnsureShardCanBeRepaired(int64 shardId, const char *sourceNodeName, int32 sourceNodePort,
 						 const char *targetNodeName, int32 targetNodePort)
 {
-	List *shardPlacementList = ShardPlacementList(shardId);
+	List *shardPlacementList = ShardPlacementListWithoutOldPlacements(shardId);
 
 	ShardPlacement *sourcePlacement = SearchShardPlacementInListOrError(
 		shardPlacementList,
